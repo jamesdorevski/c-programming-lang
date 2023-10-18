@@ -18,12 +18,14 @@ DS:
 
 */
 
-main()
-{
-    int wlength[256];
-    int c, clen, i; 
+#define MAX 256
 
-    c = clen = i = 0;
+int main()
+{
+    int wlength[MAX];
+    int c, len, i; 
+
+    c = len = i = 0;
 
     printf("Enter phrase (Ctrl+D to end input):\n");
 
@@ -31,13 +33,13 @@ main()
     {
         if (c == ' ' || c == '\n' || c == '\t')
         {
-            wlength[i] = clen;
-            clen = 0;
+            wlength[i] = len;
+            len = 0;
             i++;
         }
         else 
         {
-            clen++;
+            len++;
         }
     }
 
@@ -46,7 +48,6 @@ main()
     int j;
     for (j = 0; j < i; j++)
     {
-        printf("%d: ", j);
         for (int k = 1; k <= wlength[j]; k++)
         {
             printf("*");
