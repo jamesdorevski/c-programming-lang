@@ -36,6 +36,12 @@ int main()
             wlength[i] = len;
             len = 0;
             i++;
+
+            if (i == MAX)
+            {
+                printf("Reached max word count.\n");
+                break;
+            }
         }
         else 
         {
@@ -43,8 +49,16 @@ int main()
         }
     }
 
+    // Handle last word if there's no space/newline/tab before EOF
+    if (len != 0)
+    {
+        wlength[i] = len;
+        i++;
+    }
+
     printf("\n");
 
+    // Print horizontally
     int j;
     for (j = 0; j < i; j++)
     {
