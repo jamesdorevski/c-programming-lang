@@ -18,7 +18,7 @@ DS:
 
 */
 
-int main()
+main()
 {
     int wlength[256];
     int c, clen, i; 
