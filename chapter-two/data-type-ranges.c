@@ -12,12 +12,14 @@ then compute them yourself?
 
 bitwise shift them 
 
+not going to worry about representing floating points now as they'll be 
+covered in the computer architecture book 
+
 */
 
 #include <stdio.h>
 #include <limits.h>
 #include <float.h>
-#include <math.h>
 
 void ranges(const char* name, size_t size);
 void print_signed_range(int bits);
@@ -29,6 +31,9 @@ int main()
     ranges("short", sizeof(short));
     ranges("int", sizeof(int));
     ranges("long", sizeof(long));
+
+    printf("float range: [%f, %f]\n", FLT_MIN, FLT_MAX);
+    printf("double range: [%f, %f]\n", DBL_MIN, DBL_MAX);
 
     return 0;
 }
@@ -46,16 +51,22 @@ void ranges(const char* name, size_t size)
 
 void print_signed_range(int bits)
 {
-    int min = pow(2, bits-1) - 1;
-    int max = pow(2, bits-1) * -1;
+    long max = (1L << (bits - 1)) -1;
+    long min  = ~max;
 
-    printf(" [%d, %d]\n", min, max);
+    printf(" [%ld, %ld]\n", min, max);
 }
 
 void print_unsigned_range(int bits)
 {
-    int min = 0;
-    int max = pow(2, bits) - 1;
+    unsigned long min = 0;
+    unsigned long max;
 
-    printf(" [%u, %u]\n", min, max);
+    if (bits < sizeof(unsigned long) * 8) {
+        max = (1LU << bits) - 1;
+    } else {
+        max = ~min;
+    }
+
+    printf(" [%lu, %lu]\n", min, max);
 }
