@@ -42,6 +42,7 @@ void squeeze(char s1[], const char s2[])
     int i, j, k;
 
     for (i = k = 0; s1[i] != '\0'; i++) {
+        // how good are flags 
         int found = 0;
 
         for (j = 0; s2[j] != '\0'; j++) {
