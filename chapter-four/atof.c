@@ -12,76 +12,76 @@ where a floating-point number may be followed by e or E and an optionally signed
 #include <stdio.h>
 
 double atof(const char s[]);
-double power(double base, double exp);
+double pow(double base, double exp);
 
 int main()
 {
-    // char s[] = "123.45e6";
-    // double res = atof(s);
-
-    double res = power(12.0, 8.0);
+    char s[] = "123.45e6";
+    double res = atof(s);
 
     printf("%f\n", res);
 
     return 0;
 }
 
-// /* atof: convert string s to double */
-// double atof(const char s[])
-// {
-//     double val, power, exp;
-//     int i, sign;
+/* atof: convert string s to double */
+double atof(const char s[])
+{
+    double val, power, exp;
+    int i, sign;
 
-//     // increment over spaces, if any
-//     for (i = 0; isspace(s[i]); i++) {
-//         ;
-//     }
+    // increment over spaces, if any
+    for (i = 0; isspace(s[i]); i++) {
+        ;
+    }
 
-//     sign = (s[i] == '-') ? -1 : 1;
+    sign = (s[i] == '-') ? -1 : 1;
     
-//     if (s[i] == '+' || s[i] == '-') {
-//         i++;
-//     }
+    if (s[i] == '+' || s[i] == '-') {
+        i++;
+    }
 
-//     for (val = 0.0; isdigit(s[i]); i++) {
-//         val = 10.0 * val + (s[i] - '0');
-//     }
+    for (val = 0.0; isdigit(s[i]); i++) {
+        val = 10.0 * val + (s[i] - '0');
+    }
 
-//     if (s[i] == '.') {
-//         i++;
-//     }
+    if (s[i] == '.') {
+        i++;
+    }
 
-//     for (power = 1.0; isdigit(s[i]); i++) {
-//         val = 10.0 * val + (s[i] - '0');
-//         power *= 10;
-//     }
+    for (power = 1.0; isdigit(s[i]); i++) {
+        val = 10.0 * val + (s[i] - '0');
+        power *= 10;
+    }
 
-//     int res = sign * val / power;
+    double res = sign * val / power;
 
-//     if (s[i] != 'e' && s[i] != 'E') {
-//         return res;
-//     }
+    if (s[i] != 'e' && s[i] != 'E') {
+        return res;
+    }
 
-//     // read sign of exponent - if negative, divide. If positive, multiply
-//     i++;
+    // read sign of exponent - if negative, divide. If positive, multiply
+    i++;
 
-//     int leftshift = (s[i] == '-') ? 0 : 1;
+    int leftshift = (s[i] == '-') ? 1 : 0;
   
-//     if (s[i] == '+' || s[i] == '-') {
-//         i++;
-//     }
+    if (s[i] == '+' || s[i] == '-') {
+        i++;
+    }
 
-//     for (exp = 0.0; isdigit(s[i]); i++) {
-//         exp = 10.0 * exp + (s[i] - '0');
-//     }
+    for (exp = 0.0; isdigit(s[i]); i++) {
+        exp = 10.0 * exp + (s[i] - '0');
+    }
 
-//     if (leftshift) {
-//         return 
-//     }
+    if (leftshift) {
+        return res / pow(10.0, exp);
+    } else {
+        return res * pow(10.0, exp);
+    }
 
-// }
+}
 
-double power(double base, double exp)
+double pow(double base, double exp)
 {
     double res = 1.0;
 
