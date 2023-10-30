@@ -16,7 +16,7 @@ double pow(double base, double exp);
 
 int main()
 {
-    char s[] = "123.45e6";
+    char s[] = "256.12e-3";
     double res = atof(s);
 
     printf("%f\n", res);
@@ -56,11 +56,11 @@ double atof(const char s[])
 
     double res = sign * val / power;
 
+    // If number isn't in scientific notation, return
     if (s[i] != 'e' && s[i] != 'E') {
         return res;
     }
 
-    // read sign of exponent - if negative, divide. If positive, multiply
     i++;
 
     int leftshift = (s[i] == '-') ? 1 : 0;
@@ -78,7 +78,6 @@ double atof(const char s[])
     } else {
         return res * pow(10.0, exp);
     }
-
 }
 
 double pow(double base, double exp)
