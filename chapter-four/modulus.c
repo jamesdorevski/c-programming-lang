@@ -56,6 +56,18 @@ int main()
                     printf("error: zero divisor\n");
                 }
                 break;
+            case '%':
+                op2 = pop();
+                
+                /* modulo operator only accepts integer numbers */
+                int res = (int)pop() % (int)op2;
+                
+                if (op2 != 0.0) {
+                    push(res);
+                } else {
+                    printf("error: zero divisor\n");
+                }
+                break;
             case '\n':
                 printf("\t%.8g\n", pop());
                 break;
