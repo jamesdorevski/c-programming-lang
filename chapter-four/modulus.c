@@ -104,7 +104,7 @@ double pop()
 /* getop: get next character or numeric operand */
 int getop(char s[])
 {
-    int i, c;
+    int i, c, next;
 
     while ((s[0] = c = getch()) == ' ' || c == '\t') {
         ;
@@ -113,8 +113,19 @@ int getop(char s[])
     s[1] = '\0';
 
     /* not a number */
-    if (!isdigit(c) && c != '.') {
+    if (!isdigit(c) && c != '.' && c != '+' && c != '-') {
         return c;
+    }
+
+    /* handle sign */
+    if (c == '+' || c == '-') {
+        /* look ahead and determine if there's a num after sign */
+        next = getch();
+        if (!isdigit(next) && next != '.') {
+            return c;
+        }
+        ungetch(next);
+        c = next;
     }
 
     i = 0;
