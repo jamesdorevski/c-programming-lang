@@ -48,8 +48,16 @@ int main()
                 op2 = pop();
                 push(pop() - op2);
                 break;
+            case '/':
+                op2 = pop();
+                if (op2 != 0.0) {
+                    push(pop() / op2);
+                } else {
+                    printf("error: zero divisor\n");
+                }
+                break;
             case '\n':
-                printf("error: unknown command %s\n", s);
+                printf("\t%.8g\n", pop());
                 break;
             default:
                 printf("error: unknown command %s\n", s);
@@ -92,12 +100,20 @@ int getop(char s[])
 
     s[1] = '\0';
 
-    if (!isdigit(c)) {
+    /* not a number */
+    if (!isdigit(c) && c != '.') {
+        return c;
+    }
+
+    i = 0;
+    /* collect integer part */
+    if (isdigit(c)) {
         while (isdigit(s[++i] = c = getch())) {
             ;
         }
     }
 
+    /* collect fraction part */
     if (c == '.') {
         while (isdigit(s[++i] = c = getch())) {
             ;
