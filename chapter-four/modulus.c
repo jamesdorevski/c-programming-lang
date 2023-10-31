@@ -9,7 +9,7 @@ the modulus (%) operator and provisions for negative numbers.
 #include <stdlib.h>
 #include <ctype.h>
 
-#define MAXOP 0
+#define MAXOP 100
 #define NUMBER '0'
 #define MAXVAL 100
 #define BUFSIZE 100 /* char buffer size for ungetting */
