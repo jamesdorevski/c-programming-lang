@@ -6,14 +6,23 @@ the modulus (%) operator and provisions for negative numbers.
 Exercise 4-4. Add the commands to print the top elements of the stack without popping, to
 duplicate it, and to swap the top two elements. Add a command to clear the stack
 
+Exercise 4-5. Add access to library functions like sin, exp, and pow. See <math.h> in
+Appendix B, Section 4.
+
+Exercise 4-6. Add commands for handling variables. (It's easy to provide twenty-six variables
+with single-letter names.) Add a variable for the most recently printed value.
+
 */
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <ctype.h>
+#include <math.h>
 
 #define MAXOP 100
 #define NUMBER '0'
+#define VARIABLE '1'
+#define SET_VARIABLE '2'
 #define MAXVAL 100
 #define BUFSIZE 100 /* char buffer size for ungetting */
 
@@ -27,11 +36,17 @@ void duplicate(void);
 void swap(void);
 void clear(void);
 
+void usevar(char c);
+void setvar(double v, char c);
+
 int sp = 0; /* stack pointer */
 double val[MAXVAL]; /* FIFO stack */
 
 int bufp = 0; /* buffer pointer */
 char buf[BUFSIZE]; /* buffer for ungetch */
+
+double variables[26]; /* hold values in variables */
+double lastprinted = 0.0;
 
 /* reverse Polish calculator */
 int main()
@@ -44,6 +59,12 @@ int main()
         switch (type) {
             case NUMBER:
                 push(atof(s));
+                break;
+            case VARIABLE:
+                usevar(s[0]);
+                break;
+            case SET_VARIABLE:
+                setvar(pop(), s[1]);
                 break;
             case '+':
                 push(pop() + pop());
@@ -76,7 +97,7 @@ int main()
                 }
                 break;
             case '\n':
-                printf("\t%.8g\n", pop());
+                printf("\t%.8g\n", lastprinted = pop());
                 break;
             case 'P':
                 peek(2);
@@ -89,6 +110,9 @@ int main()
                 break;
             case 'C':
                 clear();
+                break;
+            case 'L':
+                push(lastprinted);
                 break;
             default:
                 printf("error: unknown command %s\n", s);
@@ -130,6 +154,30 @@ int getop(char s[])
     }
 
     s[1] = '\0';
+
+    /* if we're assigning a var */
+    if (c == '=') {
+        next = getch();
+        if (!islower(next)) {
+            return c;
+        }
+        ungetch(next);
+ 
+        while (islower(s[++i] = c = getch())) {
+            ;
+        }
+        s[i] = '\0';
+        return SET_VARIABLE;
+    }
+
+    /* variable */
+    if (islower(c)) {
+        while (islower(s[++i] = c = getch())) {
+            ;
+        }
+        s[i] = '\0';
+        return VARIABLE;
+    }
 
     /* not a number */
     if (!isdigit(c) && c != '.' && c != '+' && c != '-') {
@@ -190,6 +238,10 @@ void ungetch(int c)
 /* peek: print the first n items on the stack */
 void peek(int n)
 {
+    if (sp < n) {
+        printf("error: not enough elements to peek");
+    }
+
     int bound = sp - n;
 
     for (int i = sp-1; i >= bound; i--) {
@@ -216,6 +268,11 @@ void duplicate(void)
 /* swap: swap the first two elements on the stack */
 void swap(void)
 {
+    if (sp < 2) {
+        printf("error: not enough elements to swap\n");
+        return;
+    }
+
     double first = pop();
     double second = pop();
 
@@ -228,4 +285,24 @@ void clear(void)
 {
     sp = 0;
     printf("Stack cleared.\n");
+}
+
+/* setvar: store value in index c */
+void setvar(double v, char c)
+{
+    if (c >= 'a' && c <= 'z') {
+        variables[c - 'a'] = v;
+    } else {
+        printf("error: unknown variable\n");
+    }
+}
+
+/* usevar: use the var stored in index c */
+void usevar(char c)
+{
+    if (c >= 'a' && c <= 'z') {
+        push(variables[c - 'a']);
+    } else {
+        printf("error: unknown variable\n");
+    }
 }
