@@ -3,6 +3,9 @@
 Exercise 4-3. Given the basic framework, it's straightforward to extend the calculator. Add
 the modulus (%) operator and provisions for negative numbers.
 
+Exercise 4-4. Add the commands to print the top elements of the stack without popping, to
+duplicate it, and to swap the top two elements. Add a command to clear the stack
+
 */
 
 #include <stdio.h>
@@ -19,6 +22,10 @@ void push(double v);
 double pop(void);
 int getch(void);
 void ungetch(int c);
+void peek(int n);
+void duplicate(void);
+void swap(void);
+void clear(void);
 
 int sp = 0; /* stack pointer */
 double val[MAXVAL]; /* FIFO stack */
@@ -70,6 +77,18 @@ int main()
                 break;
             case '\n':
                 printf("\t%.8g\n", pop());
+                break;
+            case 'P':
+                peek(2);
+                break;
+            case 'D':
+                duplicate();
+                break;
+            case 'S':
+                swap();
+                break;
+            case 'C':
+                clear();
                 break;
             default:
                 printf("error: unknown command %s\n", s);
@@ -166,4 +185,47 @@ void ungetch(int c)
     } else {
         printf("error: char buffer full\n");
     }
+}
+
+/* peek: print the first n items on the stack */
+void peek(int n)
+{
+    int bound = sp - n;
+
+    for (int i = sp-1; i >= bound; i--) {
+        printf("\t%.8g\n", val[i]);
+    }
+}
+
+/* duplicate: duplicate the top element on the stack */
+void duplicate(void)
+{
+    if (sp <= 0) {
+        printf("error: stack empty");
+        return;
+    }
+
+    if (sp < MAXVAL) {
+        double top = val[sp-1];
+        push(top);
+    } else {
+        printf("error: stack full");
+    }
+}
+
+/* swap: swap the first two elements on the stack */
+void swap(void)
+{
+    double first = pop();
+    double second = pop();
+
+    push(first);
+    push(second);
+}
+
+/* clear: clears the stack */
+void clear(void)
+{
+    sp = 0;
+    printf("Stack cleared.\n");
 }
