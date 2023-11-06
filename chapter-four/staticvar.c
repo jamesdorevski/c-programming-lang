@@ -1,19 +1,7 @@
 /*
 
-Exercise 4-3. Given the basic framework, it's straightforward to extend the calculator. Add
-the modulus (%) operator and provisions for negative numbers.
-
-Exercise 4-4. Add the commands to print the top elements of the stack without popping, to
-duplicate it, and to swap the top two elements. Add a command to clear the stack
-
-Exercise 4-5. Add access to library functions like sin, exp, and pow. See <math.h> in
-Appendix B, Section 4.
-
-Exercise 4-6. Add commands for handling variables. (It's easy to provide twenty-six variables
-with single-letter names.) Add a variable for the most recently printed value.
-
-Exercise 4-7. Write a routine ungets(s) that will push back an entire string onto the input.
-Should ungets know about buf and bufp, or should it just use ungetch?
+Exercise 4-11. Modify getop so that it doesn't need to use ungetch. Hint: use an internal
+static variable
 
 */
 
@@ -50,6 +38,9 @@ char buf[BUFSIZE]; /* buffer for ungetch */
 
 double variables[26]; /* hold values in variables */
 double lastprinted = 0.0;
+
+
+
 
 /* reverse Polish calculator */
 int main()
