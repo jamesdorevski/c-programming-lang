@@ -6,11 +6,17 @@ an integer into a string by calling a recursive routine.
 Exercise 4-13. Write a recursive version of the function reverse(s), which reverses the
 string s in place. 
 
+Exercise 4-14. Define a macro swap(t,x,y) that interchanges two arguments of type t.
+(Block structure will help.) 
+
 */
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
+#define swap(t, x, y) \
+    if ()
 
 void itoa(int n, char s[]);
 void reverse(char s[]);
