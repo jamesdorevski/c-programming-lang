@@ -10,20 +10,22 @@ strncpy(s,t,n) copies at most n characters of t to s. Full descriptions are in A
 #include <string.h>
 
 #define MAX 64
+#define N 50
 
 char *mystrncpy(char *s, char *t, int n);
+char *mystrncat(char *dest, char *src, int n);
 
 int main()
 {
-    char s[MAX] = "The quick brown fox jumped over the line.";
-    char t[MAX] = "line.";
+    char dest[MAX] = "Hello";
+    char src[MAX] = ", World!";
 
-    char *res = strncpy(s, t, 8);
+    char *res = strncat(dest, src, N);
     printf("Original: %s\n", res);
 
-    char s2[MAX] = "The quick brown fox jumped over the line.";
+    char dest2[MAX] = "Hello";
 
-    res = mystrncpy(s2, t, 8);
+    res = mystrncat(dest2, src, N);
     printf("Rewrite: %s\n", res);
     
     return 0;
@@ -46,6 +48,21 @@ char *mystrncpy(char *s, char *t, int n)
         *s++ = '\0';
         i++;
     }
+
+    return start;
+}
+
+/* Concat at most n chars from src onto dest. */
+char *mystrncat(char *dest, char *src, int n)
+{
+    int i;
+    char *start = dest;
+
+    while (*(++dest) != '\0')
+        ;
+
+    for (i = 0; i < n && (*dest++ = *src++) != '\0'; i++) 
+        ;
 
     return start;
 }
