@@ -14,19 +14,18 @@ strncpy(s,t,n) copies at most n characters of t to s. Full descriptions are in A
 
 char *mystrncpy(char *s, char *t, int n);
 char *mystrncat(char *dest, char *src, int n);
+int mystrncmp(char *s, char *t, int n);
 
 int main()
 {
-    char dest[MAX] = "Hello";
-    char src[MAX] = ", World!";
+    char dest[MAX] = "Hello, World!";
+    char src[MAX] = "Hello";
 
-    char *res = strncat(dest, src, N);
-    printf("Original: %s\n", res);
+    int res = strncmp(dest, src, N);
+    printf("Original: %d\n", res);
 
-    char dest2[MAX] = "Hello";
-
-    res = mystrncat(dest2, src, N);
-    printf("Rewrite: %s\n", res);
+    res = mystrncmp(dest, src, N);
+    printf("Rewrite: %d\n", res);
     
     return 0;
 }
@@ -65,4 +64,18 @@ char *mystrncat(char *dest, char *src, int n)
         ;
 
     return start;
+}
+
+/* compare n chars from s and t. Returns 1 if equal; <0 if s < t; >0 if s > t. */
+int mystrncmp(char *s, char *t, int n)
+{
+    int i;
+
+    for (i = 0; i < n && (*s == *t); i++, s++, t++) {
+        if (*s == '\0') {
+            return 0;
+        }
+    }
+
+    return *s - *t;
 }
